@@ -5,9 +5,10 @@ import 'package:animated_button/animated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import 'package:yesil_umut/control.dart';
 
+String imagePath = "";
 TextEditingController nameController = TextEditingController();
 String birthdayController;
 
@@ -26,9 +27,6 @@ class _SignInState extends State<SignIn> {
   int controlQuestion = 1;
 
   Widget controlContainer;
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +86,10 @@ class _SignInState extends State<SignIn> {
                         //For continue button sizes !!!!!!!!!
                         width: MediaQuery.of(context).size.width / 3,
                         height: MediaQuery.of(context).size.height / 15,
-                        child: RaisedButton(
-                          color: Color.fromRGBO(49, 59, 52, 0.75),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromRGBO(49, 59, 52, 0.75),
+                          ),
                           onPressed: () => {
                             if (controlQuestion != 3)
                               {
@@ -100,9 +100,11 @@ class _SignInState extends State<SignIn> {
                               }
                             else
                               {
+                                saveFile(),
+                                readFile(),
                                 Navigator.pushReplacementNamed(
                                     context, '/control'),
-                                    saveInformation()
+                                saveInformation()
                               }
                           },
                           child: Text("Devam et!",
@@ -330,8 +332,10 @@ class _Questions3State extends State<Questions3> {
                   child: SizedBox(
                       width: MediaQuery.of(context).size.width / 5,
                       height: MediaQuery.of(context).size.height / 15,
-                      child: RaisedButton(
-                          color: Color.fromRGBO(49, 59, 52, 0.75),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromRGBO(49, 59, 52, 0.75),
+                          ),
                           onPressed: () => getImage(scaffoldKey),
                           child: Icon(
                             Icons.camera_alt,
@@ -357,8 +361,11 @@ class _Questions3State extends State<Questions3> {
       setState(() {
         photoSaved = "Resminiz başarıyla kaydedildi!!!";
       });
-      File imageFile = File(pickedFile.path);
+      //File imageFile = File(pickedFile.path);
+      imagePath = pickedFile.path;
       print(pickedFile.path);
+    } else {
+      imagePath = "";
     }
   }
 }
@@ -368,6 +375,41 @@ saveInformation() {
   print(birthdayController);
   print(howManyPerDayController.text);
   print(timeController.text);
+}
 
+Future<String> getFilePath() async {
+  Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+  String appDocumentsPath = appDocumentsDirectory.path;
+  String filePath = '$appDocumentsPath/info.txt';
 
+  return filePath;
+}
+
+void saveFile() async {
+  File file = File(await getFilePath());
+  print(file.path);
+  String name = "";
+  String birthday = "";
+  String howmanyperday = "";
+  String time = "";
+  String image = "";
+
+  try {
+    name = nameController.text;
+    birthday = birthdayController;
+    howmanyperday = howManyPerDayController.text;
+    time = timeController.text;
+    image = imagePath;
+  } on Exception catch (_) {
+    print("problem about filling the fields");
+  }
+  file.writeAsString(
+      name + "*" + birthday + "*" + howmanyperday + "*" + time + "*" + image);
+}
+
+void readFile() async {
+  File file = File(await getFilePath());
+  print(file.path);
+  String fileContent = await file.readAsString();
+  print('File Content: $fileContent');
 }
