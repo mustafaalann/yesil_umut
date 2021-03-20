@@ -1,11 +1,11 @@
 //The Gray color that we use = Color.fromRGBO(49, 59, 52, 0.75),
 //The Green color that we use = Color.fromRGBO(94, 217, 127, 1.0),
-
 import 'package:animated_button/animated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:intl/intl.dart';
 import 'dart:io';
 
 String imagePath = "";
@@ -275,10 +275,20 @@ class _Questions2State extends State<Questions2> {
             onTap: () async {
               TimeOfDay time = TimeOfDay.now();
               FocusScope.of(context).requestFocus(new FocusNode());
-              TimeOfDay picked =
-                  await showTimePicker(context: context, initialTime: time);
+              TimeOfDay picked = await showTimePicker(
+                  builder: (BuildContext context, Widget child) {
+                    return MediaQuery(
+                      data: MediaQuery.of(context)
+                          .copyWith(alwaysUse24HourFormat: true),
+                      child: child,
+                    );
+                  },
+                  context: context,
+                  initialTime: time);
               if (picked != null && picked != time) {
-                timeController.text = picked.format(context); // add this line.
+                timeController.text = picked.hour.toString() +
+                    ":" +
+                    picked.minute.toString(); // add this line.
                 setState(() {
                   time = picked;
                 });
