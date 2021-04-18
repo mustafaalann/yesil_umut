@@ -96,12 +96,10 @@ class _MotivationState extends State<Motivation> {
 
   void readFile() async {
     File file = File(await getFilePath());
-    print(file.path);
     String fileContent = await file.readAsString();
     setState(() {
       datas = fileContent.split("*");
     });
-    print(datas[4]);
     print('File Content: $fileContent');
   }
 }
