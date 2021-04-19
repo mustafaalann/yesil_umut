@@ -51,8 +51,61 @@ class _HomeState extends State<Home> {
                       fontSize: 18.0,
                       color: Colors.white)),
             ),
-            Text(
-              _calendarController.selectedDay.toString(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 3.3,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(49, 59, 52, 0.75),
+                  ),
+                  onPressed: isSameDate(_calendarController.selectedDay)
+                      ? () => deneme()
+                      : null,
+                  child: Text("Sigara İçildi",
+                      style: TextStyle(
+                          color: Color.fromRGBO(94, 217, 127, 1.0),
+                          fontSize: MediaQuery.of(context).size.height / 40)),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(49, 59, 52, 0.75),
+                  ),
+                  onPressed: isSameDate(_calendarController.selectedDay)
+                      ? () => deneme()
+                      : null,
+                  child: Text("Geri Al",
+                      style: TextStyle(
+                          color: Color.fromRGBO(94, 217, 127, 1.0),
+                          fontSize: MediaQuery.of(context).size.height / 40)),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Bugün İçebileceğiniz ",
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height / 41),
+                    ),
+                    Text(
+                      datas[2],
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height / 41,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      " adet sigaranız kaldı",
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height / 41),
+                    )
+                  ],
+                ),
+              ],
             )
           ],
         ),
@@ -84,5 +137,17 @@ class _HomeState extends State<Home> {
     });
   }
 
-  
+  bool isSameDate(DateTime other) {
+    if (other == null) {
+      return false;
+    } else {
+      return DateTime.now().year == other.year &&
+          DateTime.now().month == other.month &&
+          DateTime.now().day == other.day;
+    }
+  }
+
+  void deneme() {
+    print("Hello World");
+  }
 }
