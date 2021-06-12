@@ -52,7 +52,31 @@ class _HomeState extends State<Home> {
                       color: Colors.white)),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height / 3.3,
+              height: MediaQuery.of(context).size.height / 10,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Bugün İçebileceğiniz",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height / 30),
+                ),
+                Text(
+                  datas[2],
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height / 30,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  " adet sigaranız kaldı",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height / 30),
+                )
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 10,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -84,27 +108,7 @@ class _HomeState extends State<Home> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Bugün İçebileceğiniz ",
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height / 41),
-                    ),
-                    Text(
-                      datas[2],
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height / 41,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      " adet sigaranız kaldı",
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height / 41),
-                    )
-                  ],
-                ),
+                
               ],
             )
           ],
